@@ -1,0 +1,63 @@
+---
+title: "Assignment 1: Introduction"
+author: "Quinn Bankson"
+output: pdf_document
+geometry: margin=2.54cm
+---
+
+## OVERVIEW
+
+This exercise accompanies the introductory material in Environmental Data Analytics. 
+
+## Directions
+1.  Rename this file `<FirstLast>_A01_Introduction.Rmd` (replacing `<FirstLast>` with your first and last name).
+2.  Change "Student Name" on line 3 (above) with your name.
+3.  Work through the steps, **creating code and output** that fulfill each instruction.
+4.  Be sure to **answer the questions** in this assignment document.
+5.  When you have completed the assignment, **Knit** the text and code into a single PDF file.
+6.  After Knitting, submit the completed exercise (PDF file) to the appropriate assigment section on Sakai.
+
+
+## 1) Finish setting up R Studio
+
+### Install TinyTex
+Now, run this code cell the same way. This will install "tinytex" -- a helper app that allows you to knit your markdown documents into professional quality PDFs.
+```{r install tiny tex, eval=FALSE, include=FALSE}
+#install tinytext
+tinytex::install_tinytex()
+```
+
+### Set your default knit directory
+This setting will help deal with relative paths later on...
+ - From the Tool menu, select `Global Options`
+ - Select the RMarkdown section
+ - In the "Evaluate chunks in directory", set the option to "Project" (If you don't see this option, try restarting RStudio.)
+
+
+## 2) Discussion Questions
+Enter answers to the questions just below the >Answer: prompt.
+
+1. What are your previous experiences with data analytics, R, and Git? Include both formal and informal training.
+
+> Answer: 
+I have experience with using STATA for analysis of IPUMS data and CDC data regarding housing policy and maternal mortality. I have introductory level experience in Python for writing simple functions and recursive functions. I have experience in R doing various public policy related projects, including an enviornmental project that looked at the effect of coal fired power plant proximity on health outcomes. I have used GitHub to turn in Python assignments, turn in R Studio projects, and collaborate on group work. I have never used terminal commands in R Studio nor set any Git shells up in my Mac terminal until now. 
+
+2. Are there any components of the course about which you feel confident?
+
+> Answer: 
+I am confident in my ability to find packages that help me accomplish broader objectives. Along with gathering and cleaning data, I am confident in my ability to find packages to help me accomplish data science tasks. 
+
+3. Are there any components of the course about which you feel apprehensive?
+
+> Answer: 
+I know that my coding skills in base R are extremely limitted. I do not know how to build packages or create detailed functions. I hope that I can apply some of my python skills to further my understanding of R packages and functions. 
+
+## 3) GitHub
+
+Provide a link below to your forked course repository in GitHub. Make sure you have pulled all recent changes from the course repository and that you have updated your course README file, committed those changes, and pushed them to your GitHub account. 
+
+> Answer: 
+https://github.com/qbankson/EDE_Fall2023.git
+
+## 4) Knitting
+When you have completed this document, click the `knit` button.This should produce a PDF copy of your markdown document. Submit this PDF to Sakai. 
