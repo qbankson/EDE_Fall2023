@@ -98,9 +98,10 @@ sort(summary(Neonics$Species.Common.Name))
 ```{r}
 class(Neonics$Conc.1..Author.)
 
+#Class: factor
 ```
 
-> Answer: The column represents a factor class of data. It categorizes data rather tahn representing only the discrete numeric value. 
+> Answer: The column represents a factor class of data. This class categorizes data rather than representing only the discrete numeric value. 
 
 ## Explore your data graphically (Neonics)
 
@@ -133,7 +134,7 @@ ggplot(Neonics) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
-> Answer:
+> Answer: Endpoints are outcomes that can help measure the effects of ecotoxins. NOEL and LOEL are the most common endpoints. NOEL stands for no observable effect level, and LOEL stands for lowest observable effect levels. NOEL findings are not significantly different from controls, while LOEL findings are slightly but significantly different. 
 
 ## Explore your data (Litter)
 
@@ -174,13 +175,14 @@ ggplot(Litter) +
   geom_boxplot(aes(x = functionalGroup, y = dryMass))
 
 ggplot(Litter) + 
-  geom_violin(aes(x = functionalGroup, y = dryMass))
+  geom_violin(aes(x = functionalGroup, y = dryMass)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
 Why is the boxplot a more effective visualization option than the violin plot in this case?
 
-> Answer:
+> Answer: The boxplot if more effectively showing the variance in the dryMass of litter types. Outliers as well as the median can be seen easily on the boxplot. The violin plot appears to be mostly useless for this calculation. The plot is made up of straight lines in this case that reveal very little about variance in the data. 
 
 What type(s) of litter tend to have the highest biomass at these sites?
 
-> Answer:
+> Answer:Needles have the highest biomass at the sites. 
