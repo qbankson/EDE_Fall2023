@@ -81,17 +81,20 @@ write.csv(o3_2018,"C:/Users/Quinn/Documents/EDE_Fall2023/Data/Processed/EPAair_O
 
 #4
 o3_2019$Date <- mdy(o3_2019$Date)
-o3_2019 <- select(o3_2019, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+o3_2019 <- select(o3_2019, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC,
+                  COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
 write.csv(o3_2019,"C:/Users/Quinn/Documents/EDE_Fall2023/Data/Processed/EPAair_O3_NC2019_processed.csv")
 #5
 pm_2018$Date <- mdy(pm_2018$Date)
-pm_2018 <- select(pm_2018, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+pm_2018 <- select(pm_2018, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC,
+                  COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
 pm_2018$AQS_PARAMETER_DESC = "PM2.5"
 write.csv(pm_2018, "C:/Users/Quinn/Documents/EDE_Fall2023/Data/Processed/EPAair_PM25_NC2018_processed.csv") 
 
 #6
 pm_2019$Date <- mdy(pm_2019$Date)
-pm_2019 <- select(pm_2019, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+pm_2019 <- select(pm_2019, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC,
+                  COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
 pm_2019$AQS_PARAMETER_DESC = "PM2.5"
 write.csv(pm_2019, "C:/Users/Quinn/Documents/EDE_Fall2023/Data/Processed/EPAair_O3_NC2019_processed.csv")
 ```
@@ -122,22 +125,30 @@ write.csv(pm_2019, "C:/Users/Quinn/Documents/EDE_Fall2023/Data/Processed/EPAair_
 o3_and_pm <- rbind(o3_2018, o3_2019, pm_2018, pm_2019)
 
 #8 
-o3_and_pm <- o3_and_pm %>%
-  filter(Site.Name == "Linville Falls" | Site.Name == "Durham Armory" | Site.Name ==  "Leggett" | Site.Name ==  "Hattie Avenue" | Site.Name ==  "Clemmons Middle" | Site.Name ==  "Mendenhall School" | Site.Name ==  "Frying Pan Mountain" | Site.Name ==  "West Johnston Co." | Site.Name ==  "Garinger High School" | Site.Name ==  "Castle Hayne" | Site.Name ==  "Pitt Agri. Center" | Site.Name ==  "Bryson City" | Site.Name ==  "Millbrook School")
-  
-#9
 o3pm_grouped <- o3_and_pm %>%
+  filter(Site.Name == "Linville Falls" | Site.Name == "Durham Armory" | 
+           Site.Name ==  "Leggett" | Site.Name ==  "Hattie Avenue" 
+         | Site.Name ==  "Clemmons Middle" | Site.Name ==  "Mendenhall School" 
+         | Site.Name ==  "Frying Pan Mountain" | Site.Name ==  "West Johnston Co." 
+         | Site.Name ==  "Garinger High School" | Site.Name ==  "Castle Hayne" 
+         | Site.Name ==  "Pitt Agri. Center" | Site.Name ==  "Bryson City" 
+         | Site.Name ==  "Millbrook School") %>%
    group_by(Date, Site.Name, AQS_PARAMETER_DESC, COUNTY) %>%
-  summarize(DAILY_AQI_VALUE = mean(DAILY_AQI_VALUE),
+  summarize(DAILY_AQI_AVG = mean(DAILY_AQI_VALUE),
             SITE_LATITUDE = mean(SITE_LATITUDE),
             SITE_LONGITUDE = mean(SITE_LONGITUDE)) %>%
   mutate(Month = month(Date), Year = year(Date))
-
+  
+#9
+o3pm_group_wide <- o3pm_grouped %>%
+  pivot_wider(names_from = AQS_PARAMETER_DESC, values_from = DAILY_AQI_AVG)
 
 #10
-dim(o3pm_grouped)
+dim(o3pm_group_wide)
 
 #11
+write.csv(o3pm_group_wide, "C:/Users/Quinn/Documents/EDE_Fall2023/Data/Processed/EPAair_O3_PM25_NC1819_Processed.csv")
+
 
 ```
 
@@ -151,13 +162,19 @@ dim(o3pm_grouped)
 ```{r}
 
 #12
-
+o3pm_summarydf <- 
+  o3pm_group_wide %>%
+  group_by(Site.Name, Month, Year)%>%
+  summarize(avg_AQI_o3 = mean(Ozone),
+            avg_AQI_pm = mean(PM2.5)) %>%
+  drop_na(avg_AQI_o3)
+  
 
 #13
-
+dim(o3pm_summarydf)
 
 ```
 
 14. Why did we use the function `drop_na` rather than `na.omit`?
 
-> Answer: 
+> Answer: drop_na has the ability to be column specific. na.omit is more useful when you wish to drop all rows that contain NA valuesin the data set regardless of which column the NA value occurrs in. 
