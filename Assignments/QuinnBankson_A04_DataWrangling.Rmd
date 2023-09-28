@@ -1,6 +1,6 @@
 ---
 title: "Assignment 4: Data Wrangling"
-author: "Student Name"
+author: "Quinn Bankson"
 output: pdf_document
 geometry: margin=2.54cm
 ---
@@ -24,20 +24,41 @@ The completed exercise is due on Thursday, Sept 28th @ 5:00pm.
 
 1a. Load the `tidyverse`,  `lubridate`, and `here` packages into your session.
 
+```{r}
+library(tidyverse)
+library(lubridate)
+library(here)
+library(ggplot2)
+```
+
+
 1b. Check your working directory.
 
 1c. Read in all four raw data files associated with the EPA Air dataset, being sure to set string columns to be read in a factors. See the README file for the EPA air datasets for more information (especially if you have not worked with air quality data previously). 
+```{r}
+getwd
+o3_2018 <- read.csv("C:/Users/Quinn/Documents/EDE_Fall2023/Data/Raw/EPAair_O3_NC2018_raw.csv", stringsAsFactors = TRUE)
+o3_2019 <- read.csv("C:/Users/Quinn/Documents/EDE_Fall2023/Data/Raw/EPAair_O3_NC2019_raw.csv", stringsAsFactors = TRUE)
+pm_2018 <- read.csv("C:/Users/Quinn/Documents/EDE_Fall2023/Data/Raw/EPAair_PM25_NC2018_raw.csv", stringsAsFactors = TRUE)
+pm_2019 <- read.csv("C:/Users/Quinn/Documents/EDE_Fall2023/Data/Raw/EPAair_PM25_NC2019_raw.csv", stringsAsFactors = TRUE) 
+```
+
+
 
 2. Apply the `glimpse()` function to reveal the dimensions, column names, and structure of each dataset. 
 
 ```{r setup, message = FALSE}
 #1a 
+glimpse(o3_2018)
 
 #1b 
+glimpse(o3_2019)
 
 #1c 
+glimpse(pm_2018)
 
 #2 
+glimpse(pm_2019)
 
 ```
 
@@ -54,13 +75,25 @@ The completed exercise is due on Thursday, Sept 28th @ 5:00pm.
 
 ```{r}
 #3
+o3_2018$Date <- mdy(o3_2018$Date)
+o3_2018 <- select(o3_2018, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+write.csv(o3_2018,"C:/Users/Quinn/Documents/EDE_Fall2023/Data/Processed/EPAair_O3_NC2018_processed.csv")
 
 #4
-
+o3_2019$Date <- mdy(o3_2019$Date)
+o3_2019 <- select(o3_2019, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+write.csv(o3_2019,"C:/Users/Quinn/Documents/EDE_Fall2023/Data/Processed/EPAair_O3_NC2019_processed.csv")
 #5
+pm_2018$Date <- mdy(pm_2018$Date)
+pm_2018 <- select(pm_2018, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+pm_2018$AQS_PARAMETER_DESC = "PM2.5"
+write.csv(pm_2018, "C:/Users/Quinn/Documents/EDE_Fall2023/Data/Processed/EPAair_PM25_NC2018_processed.csv") 
 
 #6
-
+pm_2019$Date <- mdy(pm_2019$Date)
+pm_2019 <- select(pm_2019, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+pm_2019$AQS_PARAMETER_DESC = "PM2.5"
+write.csv(pm_2019, "C:/Users/Quinn/Documents/EDE_Fall2023/Data/Processed/EPAair_O3_NC2019_processed.csv")
 ```
 
 
@@ -86,12 +119,23 @@ The completed exercise is due on Thursday, Sept 28th @ 5:00pm.
 
 ```{r}
 #7 
+o3_and_pm <- rbind(o3_2018, o3_2019, pm_2018, pm_2019)
 
 #8 
-
+o3_and_pm <- o3_and_pm %>%
+  filter(Site.Name == "Linville Falls" | Site.Name == "Durham Armory" | Site.Name ==  "Leggett" | Site.Name ==  "Hattie Avenue" | Site.Name ==  "Clemmons Middle" | Site.Name ==  "Mendenhall School" | Site.Name ==  "Frying Pan Mountain" | Site.Name ==  "West Johnston Co." | Site.Name ==  "Garinger High School" | Site.Name ==  "Castle Hayne" | Site.Name ==  "Pitt Agri. Center" | Site.Name ==  "Bryson City" | Site.Name ==  "Millbrook School")
+  
 #9
+o3pm_grouped <- o3_and_pm %>%
+   group_by(Date, Site.Name, AQS_PARAMETER_DESC, COUNTY) %>%
+  summarize(DAILY_AQI_VALUE = mean(DAILY_AQI_VALUE),
+            SITE_LATITUDE = mean(SITE_LATITUDE),
+            SITE_LONGITUDE = mean(SITE_LONGITUDE)) %>%
+  mutate(Month = month(Date), Year = year(Date))
+
 
 #10
+dim(o3pm_grouped)
 
 #11
 
