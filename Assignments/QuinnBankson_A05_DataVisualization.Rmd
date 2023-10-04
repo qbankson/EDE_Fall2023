@@ -38,6 +38,7 @@ library(here)
 library(cowplot)
 library(ggplot2)
 library(dplyr)
+library(ggthemes)
 getwd()
 here()
 ntl_lter <- read.csv(here
@@ -92,6 +93,7 @@ For numbers 4-7, create ggplot graphs and adjust aesthetics to follow best pract
 ```{r plot total P vs PO4}
 
 #4 phosphorus by phosophate indicates x=po4 and y=tp_ug
+#"Separate aesthetics" unclear: facet used to show unique aesthetic for each plot and trend lines unique to each plot. 
 phosporus_phosphate <- ntl_lter %>% 
   ggplot(
     mapping = aes(
