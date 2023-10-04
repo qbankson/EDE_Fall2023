@@ -14,7 +14,7 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 library(tidyverse);library(lubridate); library(here)
 
 #Read in data, don't convert strings to factors
-sites <- read.csv(here('Data/Raw/NWIS_SiteFlowData_NE_Raw.csv'))
+sites <- read.csv(here('Data/Raw/NWIS_SiteFlowData_NE_RAW.csv'))
 dim(sites)
 
 #Convert date column to date object
@@ -117,3 +117,30 @@ ggplot(sites,aes(x=dow)) +
 ```
 
 ## An exercise for you: see if you can plot the number of samples recorded each month
+```{r}
+sites$moy <- month(sites$date)
+
+#Reorder by overwriting the column with the existing values assigned with a new order of levels
+sites$moy <- factor(sites$moy, levels=c("1","2","3","4","5","6","7", "8", "9", "10", "11", "12")) #Or... as.character(seq(1,7))
+
+#See that the levels are updated
+levels(sites$moy)
+
+
+
+#Add **labels** to our factors
+sites$moy <- factor(
+  sites$moy, 
+  levels=c("1","2","3","4","5","6","7", "8", "9", "10", "11",  "12"),
+  labels=c("Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
+
+#See that the levels are updated
+levels(sites$moy)
+
+#View the plot
+ggplot(sites,aes(x=moy)) +
+  geom_bar() + 
+  scale_x_discrete(drop=FALSE)
+```
+```
+
