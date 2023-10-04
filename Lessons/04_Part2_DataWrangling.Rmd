@@ -19,8 +19,8 @@ getwd()
 #library(plyr)
 library(tidyverse)
 library(lubridate)
-NTL.phys.data.PeterPaul <- read.csv("./Data/Processed/NTL-LTER_Lake_ChemistryPhysics_PeterPaul_Processed.csv")
-NTL.nutrient.data <- read.csv("./Data/Raw/NTL-LTER_Lake_Nutrients_Raw.csv",stringsAsFactors = TRUE)
+NTL.phys.data.PeterPaul <- read.csv("/Users/mac/Documents/EDE_Fall2023/Data/Raw/NTL-LTER_Lake_ChemistryPhysics_Raw.csv")
+NTL.nutrient.data <- read.csv("/Users/mac/Documents/EDE_Fall2023/Data/Raw/NTL-LTER_Lake_Nutrients_Raw.csv",stringsAsFactors = TRUE))
 ```
 
 ## Review of basic exploration and wrangling
