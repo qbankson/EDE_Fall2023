@@ -1,9 +1,13 @@
 ---
 title: 'A06 - Crafting Reports'
-author: "Student Name" 
+author: "Quinn Bankson" 
 date: "Fall 2023"
 output: pdf_document
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 ## Objectives:
 
@@ -27,6 +31,10 @@ Using markdown, create a table beneath the `Table: EPA Air Quality` line below t
 
 Table: EPA Air Quality
 
+```{r}
+
+
+```
 
 ---
 
@@ -34,7 +42,7 @@ Table: EPA Air Quality
 
 Set the following R code chunk so that it runs when knit, but no messages, errors, or any output is shown. The code itself, however, should be displayed.
 
-```{r project.setup}
+```{r project.setup, echo=TRUE, message=FALSE, warning=FALSE}
 #Import libraries
 library(tidyverse);library(lubridate);library(here);library(knitr)
 
