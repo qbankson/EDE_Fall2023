@@ -94,7 +94,7 @@ a lower temperature.
 ```{r linear.regression}
 #7
 ltr_reg <- lm(
-  data = ntllitter,
+  data = july_df,
   temperature_C ~ depth) 
 summary(ltr_reg)
 
