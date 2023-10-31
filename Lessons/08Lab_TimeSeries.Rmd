@@ -83,16 +83,36 @@ BR_complete <- inner_join(Rainfall_BR_processed,Temp_BR_processed)
 ```{r}
 
 #Exercise 5: Check if there is any missing data for both temperature and rainfall series.
+library(naniar)
+
+vis_miss(BR_complete)
 
 
+temperature_m <- ggplot(BR_complete, aes(x=Date, y = Temperature_C)) +
+  geom_line()
 
+temperature_m
+
+
+rainfall_m <- ggplot(BR_complete, aes(x=Date, y = Rainfall)) +
+  geom_line()
+
+rainfall_m
 
 #Exercise 6: Plot both series over time on separate plots. Add a trend line using geom_smooth(). Can you say something about the trend just by visualizing the data?
 
+temperature_m_sm <- ggplot(BR_complete, aes(x=Date, y = Temperature_C)) +
+  geom_line()+
+  geom_smooth(method="lm")
+
+temperature_m_sm
 
 
+rainfall_m_sm <- ggplot(BR_complete, aes(x=Date, y = Rainfall)) +
+  geom_line()+
+  geom_smooth(method="lm")
 
-
+rainfall_m_sm
 
 ```
 
@@ -100,8 +120,12 @@ BR_complete <- inner_join(Rainfall_BR_processed,Temp_BR_processed)
 
 ```{r}
 #Exercise 7: Create a time series objects for each series using ts(). Make sure you specify the starting point and frequency.
+first_m <- month(first(BR_complete$Date))
+first_d <- year(first(BR_complete$Date))
 
+t_seq_df <- ts(data = BR_complete$Temperature_C, start = c(first_m, first_d), frequency = 12)
 
+r_seq_df <- ts(data = BR_complete$Rainfall, start = 1901, 12, end = 2016, frequency =12)
 
 ```
 
@@ -124,9 +148,9 @@ The `stl` function decomposes the time series object into its component parts. W
 # Visualize the decomposed series using plot(). What components can you identify?
 
 
+r_stl<- plot(stl(r_seq_df, "per"))
 
-
-
+t_stl <- plot(stl(t_seq_df, "per"))
 
 # Exercise 9: Use the times series object generated with the stl() to extract the 
 # components of each series and turn them into data frames.
