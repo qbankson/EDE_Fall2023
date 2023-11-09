@@ -178,8 +178,10 @@ fyear.d<- year(first(GaringerOzone$Date))
 fmonth.m <- month(first(GaringerOzone.monthly$Date.FD))
 fyear.m<- year(first(GaringerOzone.monthly$Date.FD))
 
-GaringerOzone.daily.ts <- ts(GaringerOzone$Daily.Max.8.hour.Ozone.Concentration, start =c(fyear.d, fday.d), frequency = 365)
-GaringerOzone.monthly.ts <- ts(GaringerOzone.monthly$mean_concentration, start = c(fyear.m, fmonth.m), frequency = 12)
+GaringerOzone.daily.ts <- 
+ts(GaringerOzone$Daily.Max.8.hour.Ozone.Concentration, start =c(fyear.d, fday.d), frequency = 365)
+GaringerOzone.monthly.ts <- 
+ts(GaringerOzone.monthly$mean_concentration, start = c(fyear.m, fmonth.m), frequency = 12)
 
                                
 ```
@@ -241,7 +243,9 @@ GaringerOzone.components <- mutate(GaringerOzone.components,
       Date = GaringerOzone.monthly$Date.FD, 
       Non.Szn = GaringerOzone.components$trend + GaringerOzone.components$remainder)
                                    
-GaringerOzone.NonSzn.ts <-  ts(GaringerOzone.components$Non.Szn, start = c(fyear.m, fmonth.m), frequency = 12)
+GaringerOzone.NonSzn.ts <-  
+  ts(GaringerOzone.components$Non.Szn, start = 
+       c(fyear.m, fmonth.m), frequency = 12)
 
 #16
 
