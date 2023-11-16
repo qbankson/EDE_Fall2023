@@ -33,6 +33,8 @@ library(stringr)
 library(dplyr)
 library(purrr)
 
+getwd()
+
 ```
 
 2. We will be scraping data from the NC DEQs Local Water Supply Planning website, specifically the Durham's 2022 Municipal Local Water Supply Plan (LWSP): 
@@ -111,6 +113,7 @@ LWSP_df <- LWSP_df %>%
 ggplot(LWSP_df, aes(x = Date, y = MGD, group = 1)) +
   geom_line() +
   labs(title = "Maximum Daily Withdrawals Across Months (2022)",
+        subtitle = "Quinn Bankson", 
        x = "Date",
        y = "MGD") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
@@ -143,7 +146,10 @@ the_monthly_mgd <- current_page %>%
   html_text()
 
 the_months <- current_page %>%
-  html_nodes(".fancy-table:nth-child(31) tr:nth-child(2) th , .fancy-table:nth-child(31) tr:nth-child(3) th , .fancy-table:nth-child(31) tr:nth-child(4) th , .fancy-table:nth-child(31) tr:nth-child(5) th") %>%
+  html_nodes(".fancy-table:nth-child(31) tr:nth-child(2) th , 
+             .fancy-table:nth-child(31) tr:nth-child(3) th , 
+             .fancy-table:nth-child(31) tr:nth-child(4) th , 
+             .fancy-table:nth-child(31) tr:nth-child(5) th") %>%
   html_text()
 
 LWSP_df <- data.frame("Water.System.Name" = the_system,
@@ -168,6 +174,7 @@ print(example7)
 ggplot(example7, aes(x = Date, y = MGD, group = 1)) +
   geom_line(color = "blue") +
   labs(title = "Maximum Daily Withdrawals Across Months (2015)",
+        subtitle = "Quinn Bankson",
        x = "Date",
        y = "Million Gallons per Day") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
@@ -206,8 +213,9 @@ the_monthly_mgd <- current_page %>%
   html_nodes("th~ td+ td") %>%
   html_text()
 
-dates_ordered <- ymd(paste0(year, c("-01-01", "-05-01", "-09-01", "-02-01", "-06-01", "-10-01",
-                                  "-03-01", "-07-01", "-11-01", "-04-01", "-08-01", "-12-01")))
+dates_ordered <- ymd(paste0(year, c("-01-01", "-05-01", "-09-01", "-02-01", "-06-01", 
+                                    "-10-01", "-03-01", "-07-01", "-11-01", "-04-01",
+                                  "-08-01", "-12-01")))
 
 LWSP_df <- data.frame("Water.System.Name" = the_system,
                       "PWSID" = the_id,
@@ -225,6 +233,7 @@ asheville_and_durham <- bind_rows(Durham = durham, Asheville = asheville, .id = 
 ggplot(asheville_and_durham, aes(x = Date, y = MGD, color = City)) +
   geom_line() +
   labs(title = "Maximum Daily Withdrawals Across Months (2015)",
+        subtitle = "Quinn Bankson",
        x = "Date",
        y = "Million Gallons per Day") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
@@ -249,7 +258,9 @@ asheville_12yr <- bind_rows(dfs_asheville)
 
 ggplot(asheville_12yr, aes(x = Date, y = MGD)) +
   geom_line(color="blue") +
+  geom_smooth(method = "loess") +
   labs(title = "Maximum Daily Withdrawals in Asheville (2010-2021)",
+       subtitle = "Quinn Bankson",
        x = "Date",
        y = "Million Gallons per Day") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
