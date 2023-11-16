@@ -84,7 +84,10 @@ the_monthly_mgd <- LWSP_site %>%
   html_text()
 
 the_months <- LWSP_site %>%
-  html_nodes(".fancy-table:nth-child(31) tr:nth-child(2) th , .fancy-table:nth-child(31) tr:nth-child(3) th , .fancy-table:nth-child(31) tr:nth-child(4) th , .fancy-table:nth-child(31) tr:nth-child(5) th") %>%
+  html_nodes(".fancy-table:nth-child(31) tr:nth-child(2) th , 
+             .fancy-table:nth-child(31) tr:nth-child(3) th , 
+             .fancy-table:nth-child(31) tr:nth-child(4) th , 
+             .fancy-table:nth-child(31) tr:nth-child(5) th") %>%
   html_text()
 ```
 
